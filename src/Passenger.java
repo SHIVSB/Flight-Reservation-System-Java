@@ -1,6 +1,7 @@
+package src;
 import java.io.*;
 
-public class Passenger {
+class Passenger {
 
     private static int idCounter;
 
@@ -61,6 +62,10 @@ public class Passenger {
 
     Address address = new Passenger.Address();
     Contact contact = new Passenger.Contact();
+
+    public static void setIdCounter(int idCounter) {
+        Passenger.idCounter = idCounter;
+    }
 
     public String getPassengerCount(){
         return this.idCounter;

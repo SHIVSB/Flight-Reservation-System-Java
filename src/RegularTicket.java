@@ -1,6 +1,6 @@
 import java.io.*;
 
-public class RegularTicket {
+class RegularTicket extends Ticket{
     private String specialService;
 
     super();

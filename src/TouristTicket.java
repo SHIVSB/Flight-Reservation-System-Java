@@ -1,4 +1,6 @@
-public class TouristTicket {
+import java.io.*;
+
+class TouristTicket extends Ticket {
     private String hotelAddress;
     private String touristLocation;
 

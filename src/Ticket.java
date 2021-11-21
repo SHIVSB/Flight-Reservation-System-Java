@@ -1,6 +1,6 @@
 import java.io.*;
 
-abstract public class Ticket extends Flight {
+abstract class Ticket extends Flight {
     private int pnr;
     private String departureLocation;
     private String destinationLocation;
@@ -13,7 +13,7 @@ abstract public class Ticket extends Flight {
     private int price;
     private boolean cancelled;
 
-    public Ticket(int pnr, String departureLocation,String destinationLocation,String flightName, String dateDeparture,String timeDeparture,String dateArrival,String timeArrival, int seatNumber,int price,boolean cancelled){
+    public Ticket(int pnr, String departureLocation, String destinationLocation,String flightName, String dateDeparture,String timeDeparture, String dateArrival, String timeArrival, int seatNumber,int price,boolean cancelled){
         this.pnr = pnr;
         this.departureLocation = departureLocation;
         this.destinationLocation = destinationLocation;
