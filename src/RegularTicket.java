@@ -1,8 +1,9 @@
 import java.io.*;
 
 public class RegularTicket {
-    public String specialService;
+    private String specialService;
 
+    super();
     public void getservice(){
         System.out.println(this.specialService);
     }

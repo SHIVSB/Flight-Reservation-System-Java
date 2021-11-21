@@ -1,6 +1,8 @@
 public class TouristTicket {
-    public String hotelAddress;
-    public String touristLocation;
+    private String hotelAddress;
+    private String touristLocation;
+
+    super();
     public void getTouristLocation(){
         System.out.println("Your tourist Locations are : " + this.touristLocation);
     }

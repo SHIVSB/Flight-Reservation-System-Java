@@ -1,11 +1,11 @@
 import java.io.*;
 
 public class Flight {
-    public String flightName = "Shi";
-    public int flightCapacity = 240;
-    public int flightNumber = 123;
-    public String airlineName = "Shivanshu Airline";
-    public int seatsBooked = 180;
+    private String flightName = "Shi";
+    private int flightCapacity = 240;
+    private int flightNumber = 123;
+    private String airlineName = "Shivanshu Airline";
+    private int seatsBooked = 180;
 
     public void getFlightDetails(){
         System.out.println("Flight Name : " + this.flightName);
@@ -28,5 +28,9 @@ public class Flight {
         Flight fl = new Flight();
         fl.getFlightDetails();
         fl.updateSeats();
+    }
+
+    public static void main(String[] args) {
+        
     }
 }
