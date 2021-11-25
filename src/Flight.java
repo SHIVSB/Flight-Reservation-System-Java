@@ -1,13 +1,14 @@
-//package src;
-//import java.io.*;
-//import src.*;
+//Flight Class containing the main class
+import java.io.*;
+import java.util.*;
+import java.lang.Math;
 
 public class Flight {
-    private String flightName = "Shi";
+    private String flightName = "Shiv";
     private int flightCapacity = 240;
     private int flightNumber = 123;
     private String airlineName = "Shivanshu Airline";
-    private int seatsBooked = 180;
+    private int seatsBooked = 0;
 
     public void getFlightDetails(){
         System.out.println("Flight Name : " + this.flightName);
@@ -26,26 +27,60 @@ public class Flight {
         return this.seatsBooked;
     }
 
+    private static HashMap<Integer,String> m ;
+    private static HashMap<Integer,String> Location ;
+
+    public Flight(){
+        m = new HashMap<>();
+        Location = new HashMap<>();
+    }
+
+    public HashMap<Integer, String> getM() {
+        return m;
+    }
+    public HashMap<Integer, String> getLocation() {
+        return Location;
+    }
 
     public static void main(String[] args) {
+        Flight flight = new Flight();
+        Map<Integer,String> m = flight.getM();
+        Scanner sc = new Scanner(System.in);
         Flight fl = new Flight();
         fl.getFlightDetails();
 
-        Passenger obj = new Passenger();
-        Passenger obj2 = new Passenger();
-        Passenger obj4 = new Passenger();
-        obj4.ContactObject();
-        Passenger obj3 = new Passenger();
-        obj3.AddressObject();
+        System.out.println("--Please enter the number of Tickets to be Booked : ");
+        int n = sc.nextInt();
+        while(n>0) {
+            Passenger obj = new Passenger();
+            System.out.println("Please enter the passenger phone number : ");
+            int phone = sc.nextInt();
+            System.out.println("Please enter the passenger name : ");
+            String name = sc.next();
+            m.put(phone,name);
+            obj.ContactObject(phone,name);
+            obj.AddressObject();
+            n--;
+            System.out.println("Total number of Passenger count : " + obj.getPassengerCount());
+            if(n>0) {
+                System.out.println("---Enter the details for another user---");
+            }else if(n == 0){
+                int k;
+                System.out.println("Please enter the passenger phone number to get the name : ");
+                k = sc.nextInt();
+                System.out.println("Passenger Name is : " + m.get(k));
+            }
+        }
 
-        System.out.println(obj4.getPassengerCount());
-
-//        Ticket obj3 = new TouristTicket();
-//        obj3.TicketDetails();
     }
 
 }
 
+
+//-------------------------------------------------------------------------------------------------------------------
+
+
+//Abstract Ticket class
 abstract class Ticket {
     private int pnr;
     private String departureLocation;
@@ -91,6 +126,10 @@ abstract class Ticket {
         System.out.println("Status : " + this.cancelled);
     }
 
+    public int getPnr(){
+        return pnr;
+    }
+
     public void setFlightStatus(){
         if(this.cancelled){
             this.cancelled = false;
@@ -99,16 +138,17 @@ abstract class Ticket {
         }
     }
 
-//    public void duration(){
-//        System.out.println("Duration left : " + this.dateArrival-this.dateDeparture + " Days and " + this.timeArrival-this.timeDeparture + " hours.");
-//    }
-
 }
 
+
+//-------------------------------------------------------------------------------------------------------------------
+
+
+//Inheriting the commong Ticket Properties into RegularTicket Class
 class RegularTicket extends Ticket{
     private String specialService;
-    RegularTicket(){
-        super(123, "Roorkee", "Delhi", "Shiv", 24 , 4, 24, 6, 23, 6000, false);
+    RegularTicket(int num,int psngercnt){
+        super(num, "Roorkee", "Delhi", "Shiv", 24 , 4, 24, 6, psngercnt, 6000, false);
     }
     public void getService(){
         System.out.println(this.specialService);
@@ -118,38 +158,53 @@ class RegularTicket extends Ticket{
     }
 }
 
+//-------------------------------------------------------------------------------------------------------------------
+
+
+//Inheriting the common Ticket Properties into TouristTicket Class
 class TouristTicket extends Ticket {
     private String hotelAddress;
-    private String touristLocation;
 
-    public TouristTicket(){
-        super(123, "Roorkee", "Delhi", "Shiv", 24 , 4, 24, 6, 23, 6000, false);
+    public TouristTicket(int num,int psngercnt){
+        super(num, "Roorkee", "Delhi", "Shiv", 24 , 4, 24, 6, psngercnt, 6000, false);
     }
+    //Using super keyword to access the properties of the parent class
 
+    //To provide the hotel address
     public void setHotelAddress(String add){
         this.hotelAddress = add;
     }
-
+    //To get ticket details
     public void getTouristTicketDetail(){
         super.TicketDetails();
     }
+    //To get Tourist locations
+    public void getTouristLocation(int pnr){
 
-    public void getTouristLocation(){
-        System.out.println("Your tourist Locations are : " + this.touristLocation);
+        System.out.println("Your tourist Locations are : " + Location.get(pnr));
     }
-
+    Flight flight = new Flight();
+    Map<Integer,String> Location = flight.getLocation();
+    //To add tourist locations
     public void setTouristLocation(String location){
-        this.touristLocation = this.touristLocation + location;
+        Location.put(super.getPnr(),location);
     }
 }
 
+//-------------------------------------------------------------------------------------------------------------------
+
+
+//Passenger Class
 class Passenger {
 
-    private static int idCounter = 180;
+    private static int idCounter = 0; // Using idCounter to maintain the count of Passengers
+    Scanner sc = new Scanner(System.in);
 
-    Passenger(){
+    Passenger()
+    {
         Passenger.idCounter = Passenger.idCounter + 1;
-    }
+    } // To increment the passenger count every time a new passenger books the flight
+
     //Contact class nested inside passenger class
     private static class Contact {
         private String name;
@@ -173,6 +228,14 @@ class Passenger {
 
         public void setPhone(int phone) {
             this.phone = phone;
+        }
+
+        public int getPhone(){
+            return this.phone;
+        }
+
+        public String getName(){
+            return this.name;
         }
     }
 
@@ -200,27 +263,63 @@ class Passenger {
             System.out.println("State : " + this.state);
         }
 
+
     }
 
     public void AddressObject(){
-        Address address = new Passenger.Address();
-        address.setCity("Roorkee");
-        address.setState("Uk");
-        address.setStreet("Civil Lines");
+        Address address = new Passenger.Address();// Creating an obeject of the inner class
+
+        System.out.println("Please enter the city : ");
+        String a = sc.next();
+        System.out.println("Please enter the state : ");
+        String b = sc.next();
+        System.out.println("Please enter the street : ");
+        String c = sc.next();
+        address.setCity(a);//Using setter to set various properties
+        address.setState(b);
+        address.setStreet(c);
         address.getAddress();
+
+        System.out.println("If you want to Book a Tourist Ticket press 1 else press 2 for regular Ticket : ");
+        int k = sc.nextInt();
+        if(k == 1){
+            int max = 12000;
+            int min =300;
+            TouristTicket ob1 = new TouristTicket(123+(int)(Math.random()*(max-min+1)+min),getPassengerCount());// Using random ftn to generate varying PNR number
+            ob1.TicketDetails();
+            System.out.println("Please enter the Hotel Address : ");
+            String l = sc.next();
+            ob1.setHotelAddress(l);
+            System.out.println("Please add 5 Tourist Locations separated by a space : ");
+
+            String str = sc.next();
+            ob1.setTouristLocation(str);
+
+        }else if(k == 2){
+            int max = 50000;
+            int min =14000;
+            RegularTicket ob2 = new RegularTicket(123+(int)(Math.random()*(max-min+1)+min), getPassengerCount()); // Using random ftn to generate varying PNR number
+            ob2.TicketDetails();
+            System.out.println("Please Enter any special Service you need : ");
+            String s = sc.next();
+            ob2.setService(s);
+        }
     }
 
-    public void ContactObject(){
-        Contact contact = new Passenger.Contact();
-        contact.setName("Apple");
-        contact.setPhone(1234);
-        contact.setEmail("apple@game.com");
+    public void ContactObject(int phone,String name){
+        Contact contact = new Passenger.Contact(); // Creating an obeject of the inner class
+        System.out.println("Please enter the Passenger Email Id : ");
+        String c = sc.next();
+        contact.setName(name); //Using setter to set various properties
+        contact.setPhone(phone);
+        contact.setEmail(c);
         contact.getcontact();
     }
 
-
-    public int getPassengerCount(){
+    public int getPassengerCount(){ //To get the Passenger Count
         return this.idCounter;
     }
 
+
 }
+
