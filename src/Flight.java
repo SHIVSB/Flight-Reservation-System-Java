@@ -222,6 +222,7 @@ abstract class Ticket {
         flight.updatePNR(this.pnr);
         Map<Integer,Integer> pnrMap = flight.getPnrMap();
         pnrMap.put(this.seatNumber,this.pnr);
+        System.out.println("Following is your Ticket Detail : ");
         System.out.println("PNR : " + this.pnr);
         System.out.println("Departure Location : "+this.departureLocation );
         System.out.println("Destination Location : "+this.destinationLocation );
