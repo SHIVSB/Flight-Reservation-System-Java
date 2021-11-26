@@ -9,12 +9,39 @@ public class Flight {
     private int flightNumber = 123;
     private String airlineName = "Shivanshu Airline";
     private int seatsBooked = 0;
+    private int pnrUpdate;
+
+    private static HashMap<Integer,Integer> pnrMap ;
+    private static HashMap<Integer,String> m ;
+    private static HashMap<Integer,String> Location ;
+
+    public Flight(){
+        m = new HashMap<>();
+        Location = new HashMap<>();
+        pnrMap = new HashMap<>();
+    }
+
+    public HashMap<Integer, Integer> getPnrMap() {
+        return pnrMap;
+    }
+
+    public HashMap<Integer, String> getM() {
+        return m;
+    }
+    public HashMap<Integer, String> getLocation() {
+        return Location;
+    }
+
 
     public void getFlightDetails(){
         System.out.println("Flight Name : " + this.flightName);
         System.out.println("Flight Total capacity : " + this.flightCapacity);
         System.out.println("Flight Number : " + this.flightNumber);
         System.out.println("AirLine Name : " + this.airlineName);
+    }
+
+    public void updatePNR(int pnr){
+        this.pnrUpdate = pnr;
     }
 
     public void checkSeats() {
@@ -27,50 +54,132 @@ public class Flight {
         return this.seatsBooked;
     }
 
-    private static HashMap<Integer,String> m ;
-    private static HashMap<Integer,String> Location ;
 
-    public Flight(){
-        m = new HashMap<>();
-        Location = new HashMap<>();
-    }
-
-    public HashMap<Integer, String> getM() {
-        return m;
-    }
-    public HashMap<Integer, String> getLocation() {
-        return Location;
-    }
 
     public static void main(String[] args) {
         Flight flight = new Flight();
         Map<Integer,String> m = flight.getM();
+
         Scanner sc = new Scanner(System.in);
         Flight fl = new Flight();
         fl.getFlightDetails();
 
-        System.out.println("--Please enter the number of Tickets to be Booked : ");
-        int n = sc.nextInt();
-        while(n>0) {
-            Passenger obj = new Passenger();
-            System.out.println("Please enter the passenger phone number : ");
-            int phone = sc.nextInt();
-            System.out.println("Please enter the passenger name : ");
-            String name = sc.next();
-            m.put(phone,name);
-            obj.ContactObject(phone,name);
-            obj.AddressObject();
-            n--;
-            System.out.println("Total number of Passenger count : " + obj.getPassengerCount());
-            if(n>0) {
-                System.out.println("---Enter the details for another user---");
-            }else if(n == 0){
-                int k;
-                System.out.println("Please enter the passenger phone number to get the name : ");
-                k = sc.nextInt();
-                System.out.println("Passenger Name is : " + m.get(k));
-            }
+        System.out.println("-----Please press the keys according to the operation to be performed : ");
+        System.out.println("-----Press 1 to Book Ticket : ");
+        System.out.println("-----Press 2 to get Passenger Name By Phone Number : ");
+        System.out.println("-----Press 3 to check the seat availability : ");
+        System.out.println("-----Press 4 to get you PNR number : ");
+        System.out.println("-----Press 5 to exit the program : ");
+        int caseNumber = sc.nextInt();
+        switch (caseNumber){
+            case 1 : System.out.println("--Please enter the number of Tickets to be Booked : ");
+                     int n = sc.nextInt();
+                     while(n>0) {
+                    Passenger obj = new Passenger();
+                    System.out.println("Please enter the passenger phone number : ");
+                    int phone = sc.nextInt();
+                    System.out.println("Please enter the passenger name : ");
+                    String name = sc.next();
+                    m.put(phone,name);
+                    obj.ContactObject(phone,name);
+                    obj.AddressObject();
+                    n--;
+                    System.out.println("Total number of Passenger count : " + obj.getPassengerCount());
+                    fl.seatsBooked = obj.getPassengerCount();
+                    if(n>0) {
+                        System.out.println("---Enter the details for another user---");
+                    }
+                }
+                    boolean operationNumber = false;
+                    System.out.println("Please type true if you want to perform further operations : ");
+                    operationNumber = sc.nextBoolean();
+                    while(operationNumber){
+
+                             System.out.println("-----Please press the keys according to the operation to be performed otherwise type false : ");
+                             System.out.println("-----Press 1 to Book Ticket : ");
+                             System.out.println("-----Press 2 to get Passenger Name By Phone Number : ");
+                             System.out.println("-----Press 3 to check the seat availability : ");
+                             System.out.println("-----Press 4 to get you PNR number : ");
+                             System.out.println("-----Press 5 to exit the program : ");
+                             int caseNum = sc.nextInt();
+
+                             if(caseNum == 1){
+                                 System.out.println("--Please enter the number of Tickets to be Booked : ");
+                                 int nmbr = sc.nextInt();
+                                 while(nmbr>0) {
+                                     Passenger obj = new Passenger();
+                                     System.out.println("Please enter the passenger phone number : ");
+                                     int phone = sc.nextInt();
+                                     System.out.println("Please enter the passenger name : ");
+                                     String name = sc.next();
+                                     m.put(phone,name);
+                                     obj.ContactObject(phone,name);
+                                     obj.AddressObject();
+                                     nmbr--;
+                                     System.out.println("Total number of Passenger count : " + obj.getPassengerCount());
+                                     fl.seatsBooked = obj.getPassengerCount();
+                                     if(n>0) {
+                                         System.out.println("---Enter the details for another user---");
+                                     }
+                                 }
+                                 System.out.println("Please type true if you want to perform further operations otherwise type false : ");
+                                 operationNumber = sc.nextBoolean();
+                             }else if(caseNum == 2){
+                                 int k;
+                                 System.out.println("Please enter the passenger phone number to get the name : ");
+                                 k = sc.nextInt();
+                                 System.out.println("Passenger Name is : " + m.get(k));
+                                 System.out.println("Please type true if you want to perform further operations otherwise type false : ");
+                                 operationNumber = sc.nextBoolean();
+                             }else if(caseNum == 3){
+                                 if(fl.seatsBooked >= fl.flightCapacity){
+                                     System.out.println("Sorry, the Flight is full");
+                                 }else{
+                                     System.out.println("Total Seats : " + fl.flightCapacity);
+                                     System.out.println("Seats Booked : " + fl.seatsBooked);
+                                 }
+                                 System.out.println("Please type true if you want to perform further operations otherwise type false : ");
+                                 operationNumber = sc.nextBoolean();
+                             }else if(caseNum == 4){
+                                 System.out.println("Please enter your seat number to know the PNR number : ");
+                                 int seat = sc.nextInt();
+                                 System.out.println("Your PNR number is : " + pnrMap.get(seat));
+                             }else if(caseNum == 5){
+                                 System.out.println("Hope You enjoyed the experience !!!!! :)");
+                                 break;
+                             }
+
+                     }
+                     break;
+
+            case 2 :  int k;
+                      System.out.println("Please enter the passenger phone number to get the name : ");
+                      k = sc.nextInt();
+                      System.out.println("Passenger Name is : " + m.get(k));
+                      break;
+
+            case 3 : if(fl.seatsBooked >= fl.flightCapacity){
+                     System.out.println("Sorry, the Flight is full");
+                     }else{
+                     System.out.println("Total Seats : " + fl.flightCapacity);
+                     System.out.println("Seats Booked : " + fl.seatsBooked);
+                     }
+                     break;
+
+            case 4 :
+                System.out.println("Please enter your seat number to know the PNR number : ");
+                int seat = sc.nextInt();
+                System.out.println("Your PNR number is : " + pnrMap.get(seat));
+                break
+
+            case 5 :
+                System.out.println("Hope you enjoyed the experience");
+                break;
+
         }
+
+
+
 
     }
 
@@ -109,6 +218,10 @@ abstract class Ticket {
     }
 
     public void TicketDetails(){
+        Flight flight = new Flight();
+        flight.updatePNR(this.pnr);
+        Map<Integer,Integer> pnrMap = flight.getPnrMap();
+        pnrMap.put(this.seatNumber,this.pnr);
         System.out.println("PNR : " + this.pnr);
         System.out.println("Departure Location : "+this.departureLocation );
         System.out.println("Destination Location : "+this.destinationLocation );
@@ -180,7 +293,6 @@ class TouristTicket extends Ticket {
     }
     //To get Tourist locations
     public void getTouristLocation(int pnr){
-
         System.out.println("Your tourist Locations are : " + Location.get(pnr));
     }
     Flight flight = new Flight();
