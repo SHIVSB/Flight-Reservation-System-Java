@@ -170,7 +170,7 @@ public class Flight {
                 System.out.println("Please enter your seat number to know the PNR number : ");
                 int seat = sc.nextInt();
                 System.out.println("Your PNR number is : " + pnrMap.get(seat));
-                break
+                break;
 
             case 5 :
                 System.out.println("Hope you enjoyed the experience");
